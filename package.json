@@ -1,0 +1,40 @@
+{
+  "name": "gibbard-from-home",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "d3": "^5.15.0",
+    "debug": "^2.6.9",
+    "express": "^4.16.4",
+    "helmet": "^3.22.0",
+    "http-errors": "^1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "^1.9.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "main": "app.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel": "^6.23.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-react": "^7.19.0",
+    "nodemon": "^2.0.2",
+    "pug": "^2.0.4",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
