@@ -57,7 +57,7 @@ img {
 
 #container {
 	display: grid;
-	grid-template-columns: 60% 40%;
+	grid-template-columns: 66% 34%;
 	grid-template-rows: 70px auto;
 	width: 100vw;
 	height: 100vh;

@@ -14,7 +14,7 @@ class Gibbstack extends React.Component {
 			selectedAlbum: null,
 		};
 
-		this.onClickRow = this.onClickRow.bind(this)
+		// this.onClickRow = this.onClickRow.bind(this)
 		this.onClickAlbum = this.onClickAlbum.bind(this)
 		this.getUniqueItems = this.getUniqueItems.bind(this)
 		
@@ -75,16 +75,16 @@ class Gibbstack extends React.Component {
 		});
 	}
 
-	onClickRow(event) {
-			console.log('legend click')
-			var id = event.currentTarget.id
-			console.log(id)
-			var datum = this.state.data.filter(d => d['track'] == id)[0]
-			console.log(datum)
-			var url = datum.url + '&t=' + datum.timestamp
-			console.log(url)
-			window.open(url, '_blank')
-	}
+	// onClickRow(event) {
+	// 		console.log('legend click')
+	// 		var id = event.currentTarget.id
+	// 		console.log(id)
+	// 		var datum = this.state.data.filter(d => d['track'] == id)[0]
+	// 		console.log(datum)
+	// 		var url = datum.url + '&t=' + datum.timestamp
+	// 		console.log(url)
+	// 		window.open(url, '_blank')
+	// }
 
 	onClickAlbum(event) {
 		var album = event.currentTarget.getAttribute('album')
@@ -133,7 +133,7 @@ class Gibbstack extends React.Component {
 					</div>
 				</div>
 				<div id='table' className='songs'>
-					<ReactTable 
+					{/*<ReactTable 
 						data={this.state.selectedAlbum != null ? 
 							this.state.albumData.filter(d => d['album'] == this.state.selectedAlbum) : 
 							this.state.data }
@@ -143,7 +143,18 @@ class Gibbstack extends React.Component {
 						showHeaders={true}
 						keyBy={d => d.track + d.date}
 						onClickRow={this.onClickRow}
-						/>
+						/>*/}
+						<Table
+							data={this.state.selectedAlbum != null ? 
+								this.state.albumData.filter(d => d['album'] == this.state.selectedAlbum) : 
+								this.state.data }
+							headers={this.state.selectedAlbum != null ?
+								['trackindex', 'album', 'track'] : 
+								['date', 'artist', 'track']}
+							keyBy={d => d.track + d.date}
+							url={d => d.url + '&t=' + d.timestamp}
+
+							/>
 				</div>
 				<div id='albumart'>
 					
@@ -162,18 +173,7 @@ class Gibbstack extends React.Component {
 		) 
 	}
 }
-function AlbumArt(props) {
-	// console.log(props.data)
-	var d = props.album
-	// return props.data.map(d => {
-	return <img 
-						key={d.datum} 
-						src={d.value} 
-						album={d.key} 
-						onClick={props.onClick} 
-						// style={{'width': props.isSelected ? '50%' : '100%'}}
-						/>
-}
+
 
 function Navbar(props) {
 	return (
@@ -192,7 +192,69 @@ function Navbar(props) {
 	)
 }
 
+function AlbumArt(props) {
+	// console.log(props.data)
+	var d = props.album
+	// return props.data.map(d => {
+	return <img 
+						key={d.datum} 
+						src={d.value} 
+						album={d.key} 
+						onClick={props.onClick} 
+						// style={{'width': props.isSelected ? '50%' : '100%'}}
+						/>
+}
 
+function Table(props) {
+	return (
+		<table>
+			<thead>
+				<tr>
+					{props.headers.map(d => {
+						return <th key={d}>{d}</th>
+					})}
+				</tr>
+			</thead>
+			<tbody>
+			{
+				props.data.map(d => {
+					return (
+						<tr key={props.keyBy(d)} id={props.keyBy(d)} onClick={props.onClickRow} >
+							{ props.headers.map(key => <td key={key} style={{opacity: d.selected ? 1 : 0.1}}>
+								<a href={props.url(d)} target='_blank' rel='noopener noreferrer'>{ d[key] }</a>
+							</td>) }
+						</tr>
+					)
+				})
+			}
+			</tbody>
+		</table>
+	)
+}
+
+// function Table(props) {
+// 	class ReactTable extends React.Component {
+// 	constructor(props) {
+// 		super(props);
+// 	}
+	
+// 	render() {		
+// 		return (
+// 			<table>
+// 				<Headers 
+// 					headers={this.props.headers} 
+// 					showHeaders={this.props.showHeaders}/>
+// 				<Body 
+// 					headers={this.props.headers} 
+// 					data={this.props.data} 
+// 					keyBy={this.props.keyBy} 
+// 					onClickRow={this.props.onClickRow}/>
+// 			</table>
+// 		)
+// 	}
+
+// }
+// }
 // Render application
 ReactDOM.render(
 	<ErrorBoundary>
