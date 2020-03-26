@@ -28,7 +28,7 @@ class Gibbstack extends React.Component {
 	}
 
 	componentDidMount() {
-		var dataUrl = "/gibbstack.csv"
+		var dataUrl = "/songs.csv"
 
 		Promise.all([d3.csv(dataUrl), d3.csv("/albums.csv")]).then(data => {//, (err, data) => {
 			console.log(data)
@@ -54,6 +54,8 @@ class Gibbstack extends React.Component {
 				d.selected = true
 				return d
 			})
+
+			console.log(albumData)
 
 			// var allLegendItems = [...new Set(data.map(item => this.state.legendBy(item)))]
 			// console.log(allLegendItems)
@@ -119,16 +121,18 @@ class Gibbstack extends React.Component {
 	
 
 	render() {
-		console.log(this.state.albumData)
+		console.log(this.state.selectedAlbum != null ? 
+							this.state.albumData.filter(d => d['album'] == this.state.selectedAlbum) : 
+							this.state.data )
 		return (
-			<div id='container'>
+			<div id='container' className='songs'>
 				<div id='header'>
 					<span className='title'>Ben Gibbard: Live From Home</span>
 					<div className='navbar'>
 						<Navbar/>
 					</div>
 				</div>
-				<div id='table'>
+				<div id='table' className='songs'>
 					<ReactTable 
 						data={this.state.selectedAlbum != null ? 
 							this.state.albumData.filter(d => d['album'] == this.state.selectedAlbum) : 
@@ -137,15 +141,16 @@ class Gibbstack extends React.Component {
 							['trackindex', 'album', 'track'] : 
 							['date', 'artist', 'track']}
 						showHeaders={true}
-						keyBy={'track'}
+						keyBy={d => d.track + d.date}
 						onClickRow={this.onClickRow}
 						/>
 				</div>
 				<div id='albumart'>
 					
-					{this.state.albumsWithArt.filter(d => d.selected).map(d => 
+					{
+						this.state.albumsWithArt.filter(d => d.selected).map(d => 
 						<AlbumArt 
-							key={d['track']} 
+							key={d['url']} 
 							album={d} 
 							onClick={this.onClickAlbum} 
 							isSelected={this.state.selectedAlbum==d['album']}
@@ -161,31 +166,30 @@ function AlbumArt(props) {
 	// console.log(props.data)
 	var d = props.album
 	// return props.data.map(d => {
-	return <img key={d.key} src={d.value} album={d.key} onClick={props.onClick} style={{'width': props.isSelected ? '50%' : '100%'}}/>
-		
-	// })
+	return <img 
+						key={d.datum} 
+						src={d.value} 
+						album={d.key} 
+						onClick={props.onClick} 
+						// style={{'width': props.isSelected ? '50%' : '100%'}}
+						/>
 }
 
 function Navbar(props) {
 	return (
-			<ul className='navbar-nav'>
-				<li>
-					<a href='#' className='navbar-link'>
-						<span className='link-text'>Days</span>
-					</a>
-				</li>
-				<li>
-					<a href='#' className='navbar-link'>
-						<span className='link-text'>Songs</span>
-					</a>
-				</li>
-				<li>
-					<a href='#' className='navbar-link'>
-						<span className='link-text'>Charities</span>
-					</a>
-				</li>
-			</ul>
-		)
+		<ul className='navbar-nav'>
+			<li>
+				<a href='/' className='navbar-link'>
+					<span className='link-text'>Listen</span>
+				</a>
+			</li>
+			<li>
+				<a href='/charities' className='navbar-link'>
+					<span className='link-text'>Help Out</span>
+				</a>
+			</li>
+		</ul>
+	)
 }
 
 

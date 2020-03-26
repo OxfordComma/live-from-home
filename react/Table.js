@@ -22,7 +22,7 @@ function Body(props) {
 		{
 			props.data.map(d => {
 				return (
-					<tr key={d[props.keyBy]} id={d[props.keyBy]} onClick={props.onClickRow} >
+					<tr key={props.keyBy(d)} id={props.keyBy(d)} onClick={props.onClickRow} >
 						{ props.headers.map(key => <td key={key} style={{opacity: d.selected ? 1 : 0.1}}>{ d[key] }</td>) }
 					</tr>
 				)

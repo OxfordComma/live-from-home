@@ -21,8 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet())
 
-app.use('/', indexRouter);
-app.use('/gibbstack', gibbRouter)
+app.use('/', gibbRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
