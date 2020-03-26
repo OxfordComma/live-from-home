@@ -195,6 +195,11 @@ function Navbar(props) {
 					<span className='link-text'>Help Out</span>
 				</a>
 			</li>
+			<li>
+				<a href='https://forms.gle/9ASiSGcGLsJxNJ8D6' className='navbar-link'>
+					<span className='link-text'>Friday</span>
+				</a>
+			</li>
 		</ul>
 	)
 }
