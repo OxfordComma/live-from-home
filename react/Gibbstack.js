@@ -17,6 +17,7 @@ class Gibbstack extends React.Component {
 		// this.onClickRow = this.onClickRow.bind(this)
 		this.onClickAlbum = this.onClickAlbum.bind(this)
 		this.getUniqueItems = this.getUniqueItems.bind(this)
+		this.getTrackUrl = this.getTrackUrl.bind(this)
 		
 	}
 	// getLegendItems (data) {
@@ -118,6 +119,13 @@ class Gibbstack extends React.Component {
 		})
 	}
 
+	getTrackUrl(track) {
+		// console.log()
+		var song = this.state.data.find(q => q['track'] == track['track'])
+
+		return song ? song.url + '&t=' + song.timestamp : ''
+	}
+
 	
 
 	render() {
@@ -149,15 +157,14 @@ class Gibbstack extends React.Component {
 								this.state.albumData.filter(d => d['album'] == this.state.selectedAlbum) : 
 								this.state.data }
 							headers={this.state.selectedAlbum != null ?
-								['trackindex', 'album', 'track'] : 
+								['index', 'album', 'track'] : 
 								['date', 'artist', 'track']}
 							keyBy={d => d.track + d.date}
-							url={d => d.url + '&t=' + d.timestamp}
+							urlFunc={this.getTrackUrl}
 
 							/>
 				</div>
 				<div id='albumart'>
-					
 					{
 						this.state.albumsWithArt.filter(d => d.selected).map(d => 
 						<AlbumArt 
@@ -220,8 +227,8 @@ function Table(props) {
 				props.data.map(d => {
 					return (
 						<tr key={props.keyBy(d)} id={props.keyBy(d)} onClick={props.onClickRow} >
-							{ props.headers.map(key => <td key={key} style={{opacity: d.selected ? 1 : 0.1}}>
-								<a href={props.url(d)} target='_blank' rel='noopener noreferrer'>{ d[key] }</a>
+							{ props.headers.map(key => <td key={key} style={{opacity: d.selected ? 1 : 0.1, 'pointer-events': d.selected ? 'auto' : 'none'}}>
+								<a href={props.urlFunc(d)} target='_blank' rel='noopener noreferrer'>{ d[key] }</a>
 							</td>) }
 						</tr>
 					)

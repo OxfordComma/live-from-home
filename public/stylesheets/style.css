@@ -19,7 +19,7 @@ th {
 	font-size: 1.3em;
 }
 
-tr:hover {
+tbody>tr:hover {
 	cursor: pointer;
 	color: yellow;
 }
@@ -129,7 +129,7 @@ img {
 
 .songs table {
 	display: grid;
-	grid-template-columns: 20% 40% 40%;
+	grid-template-columns: 12% 40% 40%;
 	grid-template-rows: auto;
 }
 
